@@ -1,0 +1,17 @@
+{
+  "functions": {
+    "source": ".",
+    "ignore": [
+      "node_modules",
+      "src",
+      ".eslintrc.json",
+      ".firebaserc",
+      ".gitignore",
+      ".runtimeconfig.json",
+      "firebase-debug.log",
+      "firebase.json",
+      "tsconfig.json"
+    ],
+    "codebase": "repo-server"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "folders": [{ "path": "packages/client" }, { "path": "packages/server" }],
+  "settings": {
+    "editor.formatOnSave": true,
+    "search.exclude": {
+      "**/.yarn": true,
+      "**/node_modules": true,
+      "**/dist": true,
+    },
+    "typescript.enablePromptUseWorkspaceTsdk": true,
+  },
+}

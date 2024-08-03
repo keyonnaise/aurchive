@@ -1,0 +1,6 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Disallow: /auth
+Disallow: /saves
+Disallow: /post-editor
+Sitemap: https://archive.com/sitemaps/index.xml

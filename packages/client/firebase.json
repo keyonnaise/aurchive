@@ -1,0 +1,22 @@
+{
+  "functions": [
+    {
+      "source": "./dist/server",
+      "codebase": "repo-client"
+    }
+  ],
+  "hosting": {
+    "public": "dist/client",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "rewrites": [
+      {
+        "source": "/sitemaps/**",
+        "function": "api"
+      },
+      {
+        "source": "**",
+        "function": "render"
+      }
+    ]
+  }
+}
