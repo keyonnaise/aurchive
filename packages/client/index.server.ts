@@ -17,4 +17,4 @@ app.use(compression());
 
 app.get('*', renderer);
 
-export const render = functions.https.onRequest(app);
+export const render = functions.region('asia-northeast3').https.onRequest(app);

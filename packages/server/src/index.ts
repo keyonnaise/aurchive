@@ -43,4 +43,4 @@ app.use((error: Error, _req: Request, res: Response, _next: NextFunction) => {
   }
 });
 
-export const api = functions.https.onRequest(app);
+export const api = functions.region('asia-northeast3').https.onRequest(app);
