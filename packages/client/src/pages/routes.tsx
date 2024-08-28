@@ -123,7 +123,7 @@ const routes: RouteObject[] = [
         element: <RouteComponent path="/post-editor" isProtected />,
       },
       {
-        path: ':postId',
+        path: ':id',
         element: <RouteComponent path="/post-editor" isProtected />,
       },
     ],

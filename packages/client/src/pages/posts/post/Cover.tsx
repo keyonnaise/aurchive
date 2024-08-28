@@ -3,7 +3,6 @@ import { Theme, css } from '@emotion/react';
 import { formatInTimeZone } from 'date-fns-tz';
 import { useInView } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { useShallow } from 'zustand/react/shallow';
 import Spacer from '~components/atom/Spacer';
 import Typography from '~components/atom/Typography';
 import Button from '~components/buttons/Button';
@@ -15,19 +14,18 @@ import { useBaseStructureContext } from '~components/structure/BaseStructure';
 import { useDeletePostMutation } from '~hooks/queries/postQueries';
 import usePreservedCallback from '~hooks/usePreservedCallback';
 import isNonEmptyArray from '~lib/isNonEmptyArray';
-import useMyAccountStore from '~store/useMyAccountStore';
 import { breakpoints } from '~styles/media';
 
 interface Props {
   id: string;
-  author: string;
   publishedAt: number;
   title: string;
   cover: string | null;
   tags: string[];
+  isAuthor: boolean;
 }
 
-function Cover({ id, author, publishedAt, title, cover, tags }: Props) {
+function Cover({ id, publishedAt, title, cover, tags, isAuthor }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(containerRef, { margin: '0px 0px -100% 0px' });
 
@@ -41,18 +39,15 @@ function Cover({ id, author, publishedAt, title, cover, tags }: Props) {
 
   const [isPending, setIsPending] = useState(false);
 
-  const myAccount = useMyAccountStore(useShallow(({ myAccount }) => myAccount));
-  const isAuthor = myAccount?.id === author;
-
   return (
     <div ref={containerRef} css={styledContainer({ background: cover })}>
       <div css={styledContent}>
-        <Typography variant="h1" weight="extrabold">
+        <Typography variant="h2" weight="extrabold">
           {title}
         </Typography>
-        <Spacer y={0.5} />
+        <Spacer />
         <Typography variant="body3" weight="light">
-          작성일 {formatInTimeZone(publishedAt, 'Asia/Seoul', 'yyyy-MM-dd')}
+          발행일 | {formatInTimeZone(publishedAt, 'Asia/Seoul', 'yyyy-MM-dd')}
         </Typography>
         {isNonEmptyArray(tags) && (
           <div css={styledTagList}>
@@ -170,7 +165,7 @@ const styledContainer = ({ background }: { background: string | null }) => [
 ];
 
 const styledContent = css`
-  width: min(${breakpoints.lg}px, calc(100% - 24px));
+  width: min(${breakpoints.md}px, calc(100% - 24px));
   padding: 80px 0;
   margin: 0 auto;
 `;

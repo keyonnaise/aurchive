@@ -5,8 +5,6 @@ import lowlight from '~lib/lowlight';
 import { styledPostFormat } from '~styles/formats';
 import { breakpoints } from '~styles/media';
 
-// lowlight.registerAlias({ bash: ['sh', 'zsh'] });
-
 interface Props {
   body: string;
 }
@@ -33,12 +31,10 @@ function Content({ body }: Props) {
 }
 
 // Styles
-const styledContainer = css`
-  display: flex;
-`;
+const styledContainer = css``;
 
 const styledContent = css`
-  width: min(${breakpoints.lg}px, calc(100% - 24px));
+  width: min(${breakpoints.md}px, calc(100% - 24px));
   padding: 80px 0;
   margin: 0 auto;
 `;

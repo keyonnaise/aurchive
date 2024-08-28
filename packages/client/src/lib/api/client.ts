@@ -3,8 +3,8 @@ import _ from 'lodash';
 
 const API_URL =
   import.meta.env.MODE === 'development'
-    ? 'http://localhost:5002/keyo-archive/us-central1/api/'
-    : 'https://us-central1-keyo-archive.cloudfunctions.net/api/';
+    ? 'http://localhost:5002/keyo-archive/asia-northeast3/api/'
+    : 'https://asia-northeast3-keyo-archive.cloudfunctions.net/api/';
 // : 'http://localhost:5002/keyo-archive/us-central1/api/';
 
 const client = axios.create({

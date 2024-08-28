@@ -216,7 +216,7 @@ const styledContent = css`
   flex-grow: 0;
   flex-basis: auto;
 
-  width: min(${breakpoints.lg}px, calc(100% - 24px));
+  width: min(${breakpoints.md}px, calc(100% - 24px));
   padding: 80px 0;
   margin: 0 auto;
 `;
@@ -241,15 +241,15 @@ const styledTitleField = (theme: Theme) => css`
   }
 
   ${media.xs} {
-    font-size: 40px;
+    font-size: 32px;
   }
 
   ${media.md} {
-    font-size: 48px;
+    font-size: 40px;
   }
 
   ${media.lg} {
-    font-size: 56px;
+    font-size: 48px;
   }
 `;
 

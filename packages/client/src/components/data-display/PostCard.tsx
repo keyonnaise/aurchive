@@ -17,6 +17,7 @@ const DEFAULT_THUMBNAIL =
 
 interface Props {
   id: string;
+  displayName: string | undefined;
   publishedAt: number;
   title: string;
   tags: string[];
@@ -24,7 +25,7 @@ interface Props {
   body: string;
 }
 
-function PostCard({ id, publishedAt, title, tags, thumbnail, body }: Props) {
+function PostCard({ id, displayName = '존재하지 않는 사용자', publishedAt, title, tags, thumbnail, body }: Props) {
   const formattedDate = formatInTimeZone(publishedAt, 'Asia/Seoul', 'yyyy-MM-dd');
 
   return (
@@ -35,7 +36,7 @@ function PostCard({ id, publishedAt, title, tags, thumbnail, body }: Props) {
       <Card.Content>
         <div css={styledTextBox}>
           <p css={styledInfo}>
-            <span css={styledInfo.label}>발행일</span>
+            <span css={styledInfo.label}>by {displayName}</span>
             <time css={styledInfo.date}>{formattedDate}</time>
           </p>
           <h2 css={styledTitle}>{title}</h2>

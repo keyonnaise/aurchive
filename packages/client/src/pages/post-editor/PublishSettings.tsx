@@ -13,7 +13,7 @@ interface Props {
 }
 
 function PublishSettings({ onClose }: Props) {
-  const { id, fields, isPublished, setIsPending } = usePublishPreviewContext();
+  const { id, author, fields, isPublished, setIsPending } = usePublishPreviewContext();
 
   const snackbar = useSnackbar();
   const navigate = useNavigate();
@@ -30,8 +30,9 @@ function PublishSettings({ onClose }: Props) {
     const transition = isPublished ? updatePost : publishPost;
 
     const mutation = async () => {
-      const data = await transition({
+      const result = await transition({
         id,
+        author,
         title: fields.title,
         story: fields.story,
         tags: fields.tags.split(',').filter((tag) => tag !== ''),
@@ -40,7 +41,7 @@ function PublishSettings({ onClose }: Props) {
         body: fields.body,
       });
 
-      navigate(`/posts/${data}`, { replace: true });
+      navigate(`/posts/${result}`, { replace: true });
     };
 
     snackbar.promise(mutation(), {
@@ -48,7 +49,7 @@ function PublishSettings({ onClose }: Props) {
       success: '게시글이 정상적으로 발행됐어요.',
       error: '게시글을 발행하는 도중 오류가 발생했어요.',
     });
-  }, [id, fields, isPublished, snackbar, navigate, updatePost, publishPost]);
+  }, [id, author, fields, isPublished, snackbar, navigate, updatePost, publishPost]);
 
   return (
     <div css={styledContainer}>

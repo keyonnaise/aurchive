@@ -75,7 +75,7 @@ const styledContainer = css`
 `;
 
 const styledContent = css`
-  width: min(${breakpoints.lg}px, calc(100% - 24px));
+  width: min(${breakpoints.md}px, calc(100% - 24px));
   height: 100%;
   margin: 0 auto;
 `;

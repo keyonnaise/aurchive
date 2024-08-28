@@ -1,3 +1,5 @@
+import { IUser } from '../users/types';
+
 interface PostHistory {
   savedAt: number;
   title: string;
@@ -10,7 +12,7 @@ interface PostHistory {
 
 export interface IPost {
   id: string;
-  author: string;
+  author: IUser | undefined;
   publishedAt: number;
   updatedAt: number;
   title: string;

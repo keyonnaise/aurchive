@@ -39,7 +39,16 @@ posts.get(
     const cursor = total.docs[(page - 1) * limit];
 
     const snapshot = await fQuery.startAt(cursor).limit(limit).get();
-    const list = snapshot.docs.map((doc) => doc.data());
+    const posts = snapshot.docs.map((doc) => doc.data());
+
+    const list = await Promise.all(
+      posts.map(async ({ author, ...rest }) => {
+        const userRef = await collections.users.doc(author).get();
+        const user = userRef.data();
+
+        return { ...rest, author: user };
+      }),
+    );
 
     return res.send({ list, pageCount });
   }),
@@ -53,14 +62,17 @@ posts.get(
   asyncRequestHandler(async (req, res) => {
     const { id } = req.params;
 
-    const document = await collections.posts.doc(id).get();
-    const data = document.data();
+    const postRef = await collections.posts.doc(id).get();
+    const post = postRef.data();
 
-    if (data === undefined) {
+    if (post === undefined) {
       throw new NetworkError(404, '요청하신 게시글을 찾을 수 없습니다.');
     }
 
-    return res.send(data);
+    const userRef = await collections.users.doc(post.author).get();
+    const user = userRef.data();
+
+    return res.send({ ...post, author: user });
   }),
 );
 
@@ -72,9 +84,15 @@ posts.post(
   authentication,
   asyncRequestHandler(async (req, res) => {
     const idToken = req.headers.authorization?.split('Bearer ')[1] || '';
-    const { body: data } = await validateRequest(req, EditPostSchema);
+
+    const { body } = await validateRequest(req, EditPostSchema);
+    const { author, ...data } = body;
 
     const { uid } = await admin.auth().verifyIdToken(idToken);
+
+    if (uid !== author) {
+      throw new NetworkError(401, '게시글에 대한 작성 권한이 없습니다.');
+    }
 
     const currentTime = Timestamp.now().toMillis();
 
@@ -83,7 +101,7 @@ posts.post(
 
     await documentRef.set({
       id,
-      author: uid,
+      author,
       publishedAt: null,
       updatedAt: null,
       title: '',
@@ -111,8 +129,17 @@ posts.put(
   '/:id',
   authentication,
   asyncRequestHandler(async (req, res) => {
+    const idToken = req.headers.authorization?.split('Bearer ')[1] || '';
     const { id } = req.params;
-    const { body: data } = await validateRequest(req, EditPostSchema);
+
+    const { body } = await validateRequest(req, EditPostSchema);
+    const { author, ...data } = body;
+
+    const { uid } = await admin.auth().verifyIdToken(idToken);
+
+    if (uid !== author) {
+      throw new NetworkError(401, '게시글에 대한 작성 권한이 없습니다.');
+    }
 
     const currentTime = Timestamp.now().toMillis();
 
@@ -138,8 +165,17 @@ posts.put(
   '/:id/save',
   authentication,
   asyncRequestHandler(async (req, res) => {
+    const idToken = req.headers.authorization?.split('Bearer ')[1] || '';
     const { id } = req.params;
-    const { body: data } = await validateRequest(req, EditPostSchema);
+
+    const { body } = await validateRequest(req, EditPostSchema);
+    const { author, ...data } = body;
+
+    const { uid } = await admin.auth().verifyIdToken(idToken);
+
+    if (uid !== author) {
+      throw new NetworkError(401, '게시글에 대한 작성 권한이 없습니다.');
+    }
 
     const currentTime = Timestamp.now().toMillis();
 
@@ -166,8 +202,17 @@ posts.put(
   '/:id/publish',
   authentication,
   asyncRequestHandler(async (req, res) => {
+    const idToken = req.headers.authorization?.split('Bearer ')[1] || '';
     const { id } = req.params;
-    const { body: data } = await validateRequest(req, EditPostSchema);
+
+    const { body } = await validateRequest(req, EditPostSchema);
+    const { author, ...data } = body;
+
+    const { uid } = await admin.auth().verifyIdToken(idToken);
+
+    if (uid !== author) {
+      throw new NetworkError(401, '게시글에 대한 작성 권한이 없습니다.');
+    }
 
     const currentTime = Timestamp.now().toMillis();
 

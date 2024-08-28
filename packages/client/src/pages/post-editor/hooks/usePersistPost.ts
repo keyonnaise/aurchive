@@ -7,8 +7,9 @@ export default function usePersistPost() {
   const { mutateAsync: savePost } = useSavePostMutation();
 
   return useCallback(
-    async ({ id, fields }: { id: string | undefined; fields: Fields }) => {
+    async ({ id, author, fields }: { id: string | undefined; author: string; fields: Fields }) => {
       const params = {
+        author,
         title: fields.title,
         tags: fields.tags.split(',').filter((tag) => tag !== ''),
         story: fields.story || null,

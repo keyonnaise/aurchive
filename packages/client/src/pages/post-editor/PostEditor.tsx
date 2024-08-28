@@ -12,12 +12,13 @@ import PostEditorHeader from './PostEditorHeader';
 import usePersistPost from './hooks/usePersistPost';
 
 interface Props {
+  author: string;
   post: IPost | undefined;
 }
 
-function PostEditor({ post }: Props) {
+function PostEditor({ author, post }: Props) {
   return (
-    <PostEditorProvider post={post}>
+    <PostEditorProvider author={author} post={post}>
       <div css={styledContainer}>
         <PostEditorHeader />
         <PostEditorContent />
@@ -29,7 +30,7 @@ function PostEditor({ post }: Props) {
 }
 
 // Context API
-const fieldKeys = ['title', 'tags', 'story', 'cover', 'thumbnail', 'body'] as const;
+const fieldKeys = ['title', 'story', 'tags', 'cover', 'thumbnail', 'body'] as const;
 
 export type FieldKey = (typeof fieldKeys)[number];
 export type Fields = Record<FieldKey, string>;
@@ -66,14 +67,15 @@ export function usePostEditorContext() {
 }
 
 interface ProviderProps {
+  author: string;
   post: IPost | undefined;
   children: React.ReactNode;
 }
 
-function PostEditorProvider({ post, children }: ProviderProps) {
+function PostEditorProvider({ author, post, children }: ProviderProps) {
   const [state, setState] = useState<ContextState>({
+    author,
     id: undefined,
-    author: '',
     fields: {
       title: '',
       tags: '',
@@ -128,7 +130,6 @@ function PostEditorProvider({ post, children }: ProviderProps) {
     setState((prev) => ({
       ...prev,
       id: post.id,
-      author: post.author,
       fields: {
         title: post.title,
         tags: post.tags.join(','),
@@ -146,21 +147,18 @@ function PostEditorProvider({ post, children }: ProviderProps) {
 
 // Subcomponents
 const AutoSave = () => {
-  const { id, fields, isAutoSaveEnable, setId, enableAutoSave, disableAutoSave } = usePostEditorContext();
+  const { id, author, fields, isAutoSaveEnable, setId, enableAutoSave, disableAutoSave } = usePostEditorContext();
 
   const persistPost = usePersistPost();
-
   const snackbar = useSnackbar();
 
   const handlePersistPost = usePreservedCallback(() => {
     if (!isAutoSaveEnable) return;
 
     const mutation = async () => {
-      const currentId = await persistPost({ id, fields });
-
+      const currentId = await persistPost({ id, author, fields });
       setId(currentId);
       disableAutoSave();
-
       console.log('임시저장');
     };
 
@@ -180,7 +178,6 @@ const AutoSave = () => {
       clearTimeout(timer);
     };
   }, [fields]);
-
   return null;
 };
 

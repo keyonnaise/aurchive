@@ -5,7 +5,7 @@ import usePersistPost from './usePersistPost';
 import { ContextType } from '../PostEditor';
 
 export default function useUploadImageForPost(context: ContextType) {
-  const { id, fields, setId, enableAutoSave, disableAutoSave } = context;
+  const { id, author, fields, setId, enableAutoSave, disableAutoSave } = context;
 
   const persistPost = usePersistPost();
   const { mutateAsync: uploadImage } = useUploadImageToCloudStorage();
@@ -14,12 +14,12 @@ export default function useUploadImageForPost(context: ContextType) {
     let currentId = id;
 
     if (currentId === undefined) {
-      currentId = await persistPost({ fields, id: currentId });
+      currentId = await persistPost({ author, fields, id: currentId });
       setId(currentId);
     }
 
     return currentId;
-  }, [id, fields, persistPost, setId]);
+  }, [id, author, fields, persistPost, setId]);
 
   const uploadImageForPost = useCallback(
     async (file: File) => {

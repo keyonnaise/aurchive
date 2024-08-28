@@ -124,10 +124,11 @@ interface PostCardListProps {
 const PostCardList = ({ list }: PostCardListProps) => {
   return (
     <CardList>
-      {list.map(({ id, publishedAt, title, tags, thumbnail, body }) => (
+      {list.map(({ id, author, publishedAt, title, tags, thumbnail, body }) => (
         <PostCard
           key={id}
           id={id}
+          displayName={author?.displayName}
           publishedAt={publishedAt}
           title={title}
           tags={tags}

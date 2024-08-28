@@ -23,6 +23,7 @@ export const GetPostsSchema = z
 
 export const EditPostSchema = z.object({
   body: z.object({
+    author: z.string(),
     title: z.string(),
     tags: z.string().array(),
     story: z.string().nullable(),

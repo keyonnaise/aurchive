@@ -17,7 +17,7 @@ function PostEditorFooter() {
   const snackbar = useSnackbar();
   const overlay = useOverlay();
 
-  const savePost = usePersistPost();
+  const persistPost = usePersistPost();
 
   const navigate = useNavigate();
 
@@ -44,8 +44,7 @@ function PostEditorFooter() {
     }
 
     const mutation = async () => {
-      const currentId = await savePost({ id, fields });
-
+      const currentId = await persistPost({ id, author, fields });
       setId(currentId);
 
       overlay.open((props) => (
@@ -66,7 +65,7 @@ function PostEditorFooter() {
       success: '포스트를 임시저장했어요.',
       error: '포스트를 임시저장하는 도중 오류가 발생했어요',
     });
-  }, [id, author, fields, isPublished, setId, enableAutoSave, disableAutoSave, snackbar, overlay, savePost]);
+  }, [id, author, fields, isPublished, setId, enableAutoSave, disableAutoSave, snackbar, overlay, persistPost]);
 
   return (
     <div css={styledContainer}>
@@ -105,7 +104,7 @@ const styledContent = Object.assign(
 
     display: flex;
     align-items: center;
-    width: min(${breakpoints.lg}px, calc(100% - 24px));
+    width: min(${breakpoints.md}px, calc(100% - 24px));
     height: 64px;
     margin: 0 auto;
   `,

@@ -1,8 +1,8 @@
 import { forwardRef } from 'react';
 import { Theme, css } from '@emotion/react';
-import _ from 'lodash';
 import { P, match } from 'ts-pattern';
 import contains from '~lib/contains';
+import isNil from '~lib/isNil';
 import media from '~styles/media';
 import palette from '~styles/palette';
 
@@ -53,6 +53,8 @@ interface UnstyledProps {
 type Props = StyledProps | UnstyledProps;
 
 function Typography<E extends React.ElementType>(props: Props, ref: ComponentRef<E>) {
+  if (isNil(props.children)) return null;
+
   return match(props)
     .with(
       { variant: P.union('h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'body1', 'body2', 'body3') },

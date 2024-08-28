@@ -129,10 +129,11 @@ interface PostCardListProps {
 const PostCardList = ({ list }: PostCardListProps) => {
   return (
     <CardList>
-      {list.map(({ id, publishedAt, title, tags, thumbnail, body }) => (
+      {list.map(({ id, author, publishedAt, title, tags, thumbnail, body }) => (
         <PostCard
           key={id}
           id={id}
+          displayName={author?.displayName}
           publishedAt={publishedAt}
           title={title}
           tags={tags}
@@ -152,7 +153,7 @@ const CardList = ({ children }: CardListProps) => {
   return (
     <Grid container>
       {Children.map(children, (child, i) => (
-        <Grid key={i} item xs={12} sm={6} lg={4}>
+        <Grid key={i} item xs={12} sm={6} xl={4}>
           {child}
         </Grid>
       ))}

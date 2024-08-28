@@ -11,11 +11,17 @@
     "rewrites": [
       {
         "source": "/sitemaps/**",
-        "function": "api"
+        "function": {
+          "functionId": "api",
+          "region": "asia-northeast3"
+        }
       },
       {
         "source": "**",
-        "function": "render"
+        "function": {
+          "functionId": "render",
+          "region": "asia-northeast3"
+        }
       }
     ]
   }
