@@ -80,7 +80,7 @@ const styledContainer =
     // Others
     isLoadedPhoto
       ? css`
-          border: 1px solid ${theme.border};
+          border: 1px solid ${theme.border.netural};
         `
       : css`
           color: ${theme[colorScheme].contrast};

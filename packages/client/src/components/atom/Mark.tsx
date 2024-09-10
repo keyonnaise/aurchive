@@ -1,5 +1,6 @@
 import React from 'react';
 import { Theme, css } from '@emotion/react';
+import { setAlphaToHex } from '~styles/themes';
 
 type Shape = 'round' | 'square';
 type Variant = 'solid' | 'ghost' | 'outline';
@@ -67,7 +68,7 @@ const styledContainer =
     variant === 'ghost' &&
       css`
         color: ${theme[colorScheme].accent};
-        background-color: ${theme[colorScheme].alpha(0.1)};
+        background-color: ${setAlphaToHex(theme[colorScheme].main, 0.05)};
       `,
     variant === 'outline' &&
       css`

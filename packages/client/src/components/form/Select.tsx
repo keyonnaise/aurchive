@@ -5,6 +5,7 @@ import Icon from '~components/atom/Icon';
 import Input from '~components/atom/Input';
 import useCombinedRefs from '~hooks/useCombinedRefs';
 import useUpdateEffect from '~hooks/useUpdateEffect';
+import { setAlphaToHex } from '~styles/themes';
 import InputBase, { ColorScheme, Variant } from './InputBase';
 
 interface Props {
@@ -216,7 +217,7 @@ const styledContent = Object.assign(
     padding: 4px;
     color: ${theme.text.main};
     background-color: ${theme.background.elevated};
-    border: 1px solid ${theme.border};
+    border: 1px solid ${theme.border.netural};
     border-radius: ${theme.radii.xs};
     box-shadow: ${theme.shadows.xs};
   `,
@@ -249,7 +250,7 @@ const styledOption = Object.assign(
 
     &:hover,
     &[data-highlighted] {
-      background: ${theme.netural.alpha(0.1)};
+      background: ${setAlphaToHex(theme.netural.main, 0.1)};
     }
 
     &[data-disabled] {

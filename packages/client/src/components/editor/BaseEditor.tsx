@@ -80,7 +80,7 @@ const styledEditorContent = (theme: Theme) => css`
       width: 8px;
     }
     &::-webkit-scrollbar-thumb {
-      background-color: ${theme.border};
+      background-color: ${theme.border.netural};
       background-clip: padding-box;
       border-left: 4px solid transparent;
     }

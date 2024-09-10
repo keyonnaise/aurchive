@@ -75,7 +75,7 @@ const Editor = () => {
 const Toolbar = () => {
   const { editor } = useCurrentEditor();
 
-  const Separator = () => <Divider orientation="vertical" color="currentColor" size="16px" thickness="2px" />;
+  const Separator = () => <Divider orientation="vertical" size="16px" />;
 
   if (editor === null) return null;
 

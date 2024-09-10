@@ -46,7 +46,7 @@ function Toolbar() {
                 editor.chain().focus().toggleHeading({ level: 4 }).run();
               }}
             />
-            <Divider orientation="vertical" size="16px" thickness="2px" />
+            <Divider orientation="vertical" size="16px" />
             <Format
               icon="editor/align-justify"
               isActive={editor.isActive({ textAlign: 'justify' })}
@@ -75,7 +75,7 @@ function Toolbar() {
                 editor.chain().focus().setTextAlign('right').run();
               }}
             />
-            <Divider orientation="vertical" size="16px" thickness="2px" />
+            <Divider orientation="vertical" size="16px" />
             <Format
               icon="development/code-box-line"
               isActive={editor.isActive('code')}
@@ -91,7 +91,7 @@ function Toolbar() {
                 editor.chain().focus().toggleCodeBlock().run();
               }}
             />
-            <Divider orientation="vertical" size="16px" thickness="2px" />
+            <Divider orientation="vertical" size="16px" />
             <Format
               icon="editor/bold"
               isActive={editor.isActive('bold')}
@@ -120,7 +120,7 @@ function Toolbar() {
                 editor.chain().focus().toggleHighlight().run();
               }}
             />
-            <Divider orientation="vertical" size="16px" thickness="2px" />
+            <Divider orientation="vertical" size="16px" />
             {editor.isActive('link') ? (
               <Format
                 icon="editor/link-unlink"
@@ -199,7 +199,7 @@ const styledContainer = css`
 
 const styledToolbar = (theme: Theme) => css`
   color: ${theme.text.main};
-  border-bottom: 1px solid ${theme.border};
+  border-bottom: 1px solid ${theme.border.netural};
 `;
 
 const styledFormatGroup = css`

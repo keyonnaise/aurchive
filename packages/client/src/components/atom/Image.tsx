@@ -161,7 +161,7 @@ const styledContainer =
       max-width: 100%;
       max-height: 100%;
       margin: auto;
-      border: ${hasBorder && `1px solid ${theme.border}`};
+      border: ${hasBorder && `1px solid ${theme.border.netural}`};
       opacity: ${isLoaded ? 1 : 0};
       transition: opacity 400ms ease;
     `,

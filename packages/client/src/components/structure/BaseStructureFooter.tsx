@@ -38,7 +38,7 @@ function BaseStructureFooter() {
             </div>
           </Grid>
         </Grid>
-        <Divider offset={1.5} />
+        <Divider space={1.5} />
         <p css={styledCopyright}>© 2024 Keyonnaise. All Rights Reserved.</p>
       </div>
     </div>
@@ -50,7 +50,7 @@ const styledContainer = (theme: Theme) => css`
   display: flex;
   color: ${theme.text.main};
   background-color: ${theme.netural.contrast};
-  border-top: 1px solid ${theme.border};
+  border-top: 1px solid ${theme.border.netural};
 `;
 
 const styledContent = css`

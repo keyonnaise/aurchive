@@ -21,7 +21,7 @@ const styledContainer = (theme: Theme) => css`
   margin-bottom: 64px;
   color: ${theme.text.main};
   background-color: ${theme.background.sub};
-  border: 1px solid ${theme.border};
+  border: 1px solid ${theme.border.netural};
   border-radius: ${theme.radii.md};
 `;
 

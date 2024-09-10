@@ -69,7 +69,7 @@ const styledContent = (theme: Theme) => css`
   width: min(${breakpoints.md}px, calc(100% - 24px));
   padding: 160px 0;
   margin: 0 auto;
-  border-top: 1px solid ${theme.border};
+  border-top: 1px solid ${theme.border.netural};
   text-align: center;
 `;
 

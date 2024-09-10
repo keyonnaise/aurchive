@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { css, Theme } from '@emotion/react';
+import { setAlphaToHex } from '~styles/themes';
 
 interface Props {
   overflowX?: Overflow;
@@ -177,10 +178,10 @@ const styledContainer =
           background-clip: padding-box;
         }
         &::-webkit-scrollbar-track {
-          background-color: ${theme.netural.alpha(0.1)};
+          background-color: ${setAlphaToHex(theme.netural.main, 0.1)};
         }
         &::-webkit-scrollbar-thumb {
-          background-color: ${theme.netural.alpha(0.4)};
+          background-color: ${setAlphaToHex(theme.netural.main, 0.4)};
         }
       `,
 

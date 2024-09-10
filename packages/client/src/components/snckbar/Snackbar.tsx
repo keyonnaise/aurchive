@@ -140,7 +140,7 @@ const styledContainer =
       padding: 16px;
       color: ${theme.text.main};
       background-color: ${theme.background.elevated};
-      border: 1px solid ${theme.border};
+      border: 1px solid ${theme.border.netural};
       border-radius: ${theme.radii.sm};
       box-shadow: ${theme.shadows.xl};
     `,

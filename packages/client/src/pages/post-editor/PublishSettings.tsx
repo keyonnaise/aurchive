@@ -56,7 +56,7 @@ function PublishSettings({ onClose }: Props) {
       <div css={styledContent}>
         <SettingStory />
       </div>
-      <Divider offset={2}>모든 항목을 작성하셨나요?</Divider>
+      <Divider space={2}>모든 항목을 작성하셨나요?</Divider>
       <div css={styledFooter}>
         <Button as="button" variant="outline" size="sm" fullWidth onClick={onClose}>
           취소

@@ -15,6 +15,7 @@ import { useGetPostsQuery } from '~hooks/queries/postQueries';
 import { IPost } from '~lib/api/posts/types';
 import isNonEmptyArray from '~lib/isNonEmptyArray';
 import pipe from '~lib/pipe';
+import { setAlphaToHex } from '~styles/themes';
 
 function Section01() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -161,7 +162,7 @@ const styledFallbackContainer = (theme: Theme) => css`
   display: flex;
   align-items: center;
   height: 560px;
-  background-color: ${theme.netural.alpha(0.1)};
+  background-color: ${setAlphaToHex(theme.netural.main, 0.1)};
   border-radius: ${theme.radii.sm};
 `;
 

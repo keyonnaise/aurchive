@@ -3,6 +3,7 @@ import { css, Theme } from '@emotion/react';
 import { Link } from 'react-router-dom';
 import { match, P } from 'ts-pattern';
 import Icon, { IconType } from '~components/atom/Icon';
+import { setAlphaToHex } from '~styles/themes';
 
 type AsProps<K extends string, E extends React.ElementType> = {
   as: K;
@@ -185,7 +186,7 @@ export const styledButtonBase =
     variant === 'ghost' && [
       css`
         color: ${theme[colorScheme].main};
-        background-color: ${theme[colorScheme].alpha(0.15)};
+        background-color: ${setAlphaToHex(theme[colorScheme].main, 0.15)};
 
         &:hover {
           background-color: ${theme[colorScheme].hover};

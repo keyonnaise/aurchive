@@ -36,7 +36,7 @@ function NavigationDrawer({ menus, close, ...rest }: Props) {
           <h2 css={styledTitle}>{MAIN_SLOGAN}</h2>
           <p css={styledCaption}>created by keyonnaise</p>
         </div>
-        <Divider thickness="4px" />
+        <Divider />
         <div css={styledContent}>
           {menus.map((menu, i) => (
             <Fragment key={i}>

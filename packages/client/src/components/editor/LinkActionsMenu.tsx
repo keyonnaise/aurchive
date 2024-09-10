@@ -91,7 +91,7 @@ const styledContainer = (theme: Theme) => css`
   padding: 0 16px;
   color: ${theme.text.main};
   background-color: ${theme.background.elevated};
-  border: 1px solid ${theme.border};
+  border: 1px solid ${theme.border.netural};
   border-radius: ${theme.radii.full};
   box-shadow: ${theme.shadows.md};
 `;
@@ -106,7 +106,7 @@ const styledInput = (theme: Theme) => css`
   height: 24px;
   padding: 0 4px;
   margin: 0 4px;
-  border: 1px solid ${theme.border};
+  border: 1px solid ${theme.border.netural};
   border-radius: ${theme.radii.xs};
   font-size: 12px;
 `;

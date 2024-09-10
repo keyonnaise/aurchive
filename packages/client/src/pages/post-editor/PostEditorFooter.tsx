@@ -94,7 +94,7 @@ const styledContainer = (theme: Theme) => css`
   display: flex;
   align-items: center;
   margin-top: 32px;
-  border-top: 1px solid ${theme.border};
+  border-top: 1px solid ${theme.border.netural};
 `;
 
 const styledContent = Object.assign(

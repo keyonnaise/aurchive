@@ -33,7 +33,7 @@ function ProfileEditor() {
           <Typography as="h3" variant="h6" weight="bold">
             내 정보
           </Typography>
-          <Divider offset={2} />
+          <Divider space={2} />
           <SettingProfilePhoto />
           <SettingDisplayName />
           <SettingBio />

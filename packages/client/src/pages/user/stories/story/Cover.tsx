@@ -115,7 +115,7 @@ const styledContainer = Object.assign(
     align-items: end;
     padding: 64px 0;
     margin-bottom: 64px;
-    border-bottom: 1px solid ${theme.border};
+    border-bottom: 1px solid ${theme.border.netural};
   `,
   {
     left: css`

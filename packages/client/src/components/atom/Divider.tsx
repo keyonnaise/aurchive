@@ -1,64 +1,50 @@
-import { Theme, css } from '@emotion/react';
+import { css, Theme } from '@emotion/react';
+import _ from 'lodash';
 
-const SPACIES = [0, 0.5, 1, 1.5, 2, 2.5, 3, 4, 5, 6, 8, 10, 12, 14, 16, 20, 24] as const;
+const SPACIES = [0, 0.5, 1, 1.5, 2, 2.5, 3, 4, 6, 8, 10, 12, 14, 16, 18, 20] as const;
+
+type Space = (typeof SPACIES)[number] | string;
 
 type Orientation = 'horizontal' | 'vertical';
-type Space = (typeof SPACIES)[number] | string;
+type Color = 'netural' | 'dark' | 'light';
 
 interface Props {
   orientation?: Orientation;
-  color?: string;
   size?: string;
-  offset?: Space;
-  thickness?: string;
+  space?: Space;
+  color?: Color;
   children?: React.ReactNode;
 }
 
-function Divider({ orientation = 'horizontal', color, size = '100%', offset = 0, thickness = '1px', children }: Props) {
+function Divider({ orientation = 'horizontal', size = '100%', space = 0, color = 'netural', children }: Props) {
   return (
-    <div
-      role="separator"
-      css={styledContainer({ orientation, color, size, offset, thickness })}
-    >
-      {children !== undefined && <div>{children}</div>}
+    <div role="separator" css={styledContainer({ orientation, size, space, color })}>
+      {!_.isNil(children) && (
+        <div css={styledContent}>
+          <span css={styledLabel}>{children}</span>
+        </div>
+      )}
     </div>
   );
 }
 
 // Styles
 const styledContainer =
-  ({
-    orientation,
-    color,
-    size,
-    offset,
-    thickness,
-  }: {
-    orientation: Orientation;
-    color: string | undefined;
-    size: string;
-    offset: Space;
-    thickness: string;
-  }) =>
+  ({ orientation, size, space, color }: { orientation: Orientation; size: string; space: Space; color: Color }) =>
   (theme: Theme) => [
     css`
       display: flex;
       align-items: center;
-      color: ${theme.text.main};
-      text-align: center;
+      align-self: stretch;
 
       &::before,
       &::after {
         content: '';
         flex-grow: 1;
         flex-basis: 0;
-      }
-
-      > div {
-        flex-grow: 0;
-        flex-basis: auto;
-        font-size: 12px;
-        font-weight: 600;
+        width: 100%;
+        height: 100%;
+        background-color: ${theme.border[color]};
       }
     `,
 
@@ -67,44 +53,39 @@ const styledContainer =
       css`
         flex-direction: row;
         width: ${size};
-        margin: ${typeof offset === 'number' ? `${offset}em` : offset} auto;
+        height: 1px;
+        margin-block: ${typeof space === 'number' ? `${space * 16}px` : space};
+        margin-inline: auto;
 
         &::before,
         &::after {
-          border-top: ${thickness} solid ${theme.border};
-        }
-
-        > div {
-          padding: 0 16px;
+          min-width: 0;
         }
       `,
     orientation === 'vertical' &&
       css`
         flex-direction: column;
+        width: 1px;
         height: ${size};
-        margin: auto ${typeof offset === 'number' ? `${offset}em` : offset};
+        margin-block: auto;
+        margin-inline: ${typeof space === 'number' ? `${space * 16}px` : space};
 
         &::before,
         &::after {
           min-height: 0;
-          border-left: ${thickness} solid ${theme.border};
-        }
-
-        > div {
-          padding: 16px 0;
-        }
-      `,
-
-    // Color
-    color !== undefined &&
-      css`
-        color: ${color};
-
-        &::before,
-        &::after {
-          border-color: currentColor;
         }
       `,
   ];
+
+const styledContent = css`
+  flex-grow: 0;
+  flex-basis: auto;
+  margin-inline: 8px;
+`;
+
+const styledLabel = (theme: Theme) => css`
+  color: ${theme.text.main};
+  font-size: 16px;
+`;
 
 export default Divider;

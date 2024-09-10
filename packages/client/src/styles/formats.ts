@@ -1,5 +1,6 @@
 import { Theme, css } from '@emotion/react';
 import media from './media';
+import { setAlphaToHex } from './themes';
 
 export const styledPostFormat = (theme: Theme) => css`
   h2,
@@ -66,7 +67,7 @@ export const styledPostFormat = (theme: Theme) => css`
 
   mark {
     color: ${theme.info.main};
-    background: ${theme.info.alpha(0.1)};
+    background: ${setAlphaToHex(theme.info.main, 0.1)};
   }
 
   a {
@@ -184,7 +185,7 @@ export const styledBioFormat = (theme: Theme) => css`
 
   mark {
     color: ${theme.info.main};
-    background-color: ${theme.info.alpha(0.1)};
+    background-color: ${setAlphaToHex(theme.info.main, 0.1)};
   }
 
   a {

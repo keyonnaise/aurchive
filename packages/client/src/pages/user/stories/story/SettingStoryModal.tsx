@@ -83,7 +83,7 @@ function SettingStoryModal({ id, name, slug, description, isOpen, close }: Props
             isError={!_.isNil(errors.description)}
           />
         </div>
-        <Divider offset={2}>모든 항목을 작성하셨나요?</Divider>
+        <Divider space={2}>모든 항목을 작성하셨나요?</Divider>
         <div css={styledFooter}>
           <Button as="button" variant="outline" size="sm" fullWidth isDisabled={isPending} onClick={close}>
             취소

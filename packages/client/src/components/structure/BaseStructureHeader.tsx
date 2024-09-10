@@ -7,7 +7,7 @@ import IconButton from '~components/buttons/IconButton';
 import useOverlay from '~components/overlay/hooks/useOverlay';
 import contains from '~lib/contains';
 import { breakpoints } from '~styles/media';
-import { applyOpacityToHex } from '~styles/palette';
+import { setAlphaToHex } from '~styles/themes';
 import { useBaseStructureContext } from './BaseStructure';
 import NavigationDrawer from './NavigationDrawer';
 import NavigationTabs from './NavigationTabs';
@@ -63,12 +63,7 @@ const DesktopHeader = ({ headerColorScheme, navColorScheme, children }: DesktopH
         </div>
         <div css={styledContent.right}>
           <NavigationTabs colorScheme={navColorScheme} menus={MENUS} />
-          <Divider
-            orientation="vertical"
-            color={navColorScheme === 'dark' ? 'black' : navColorScheme === 'light' ? 'white' : undefined}
-            size="16px"
-            offset={1}
-          />
+          <Divider orientation="vertical" color={navColorScheme} size="16px" space={1} />
           {children}
         </div>
       </div>
@@ -134,7 +129,7 @@ const styledContent = Object.assign(
         height: 64px;
         padding: 0 16px;
         margin: 0 auto;
-        border: 1px solid ${theme.border};
+        border: 1px solid ${theme.border.netural};
         border-radius: ${theme.radii.sm};
         backdrop-filter: blur(8px);
         box-shadow: ${theme.shadows.md};
@@ -144,16 +139,13 @@ const styledContent = Object.assign(
       colorScheme === 'netural' &&
         css`
           color: ${theme.text.main};
-          background-image: radial-gradient(
-            rgba(0, 0, 0, 0) 2px,
-            ${applyOpacityToHex(theme.background.elevated, 0.1)} 2px
-          );
+          background-image: radial-gradient(rgba(0, 0, 0, 0) 2px, ${setAlphaToHex(theme.background.elevated, 0.1)});
           background-size: 4px 4px;
         `,
       contains(['dark', 'light'] as const, colorScheme) &&
         css`
           color: ${theme[colorScheme].contrast};
-          background-image: radial-gradient(rgba(0, 0, 0, 0) 2px, ${theme[colorScheme].alpha(0.1)} 2px);
+          background-image: radial-gradient(rgba(0, 0, 0, 0) 2px, ${setAlphaToHex(theme[colorScheme].main, 0.1)} 2px);
           background-size: 4px 4px;
         `,
     ],

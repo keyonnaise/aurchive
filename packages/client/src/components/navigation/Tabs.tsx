@@ -5,6 +5,7 @@ import { PolymorphicProps, UnstyledButton } from '~components/buttons/Button';
 import Scroll from '~components/layout/Scroll';
 import useCombinedRefs from '~hooks/useCombinedRefs';
 import { assert } from '~lib/assert';
+import { setAlphaToHex } from '~styles/themes';
 
 type Variant = 'solid' | 'text';
 type ColorScheme = 'netural' | 'dark' | 'light';
@@ -193,13 +194,13 @@ const styledThumb =
     variant === 'solid' &&
       css`
         height: 32px;
-        background-color: ${theme[colorScheme].alpha(0.1)};
+        background-color: ${setAlphaToHex(theme[colorScheme].main, 0.1)};
         border-radius: ${theme.radii.full};
       `,
     variant === 'text' &&
       css`
         height: 2px;
-        background: ${theme[colorScheme].alpha(0.1)};
+        background: ${setAlphaToHex(theme[colorScheme].main, 0.1)};
       `,
   ];
 

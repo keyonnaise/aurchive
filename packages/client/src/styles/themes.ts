@@ -1,250 +1,192 @@
-import { ColorTokens, Theme } from '@emotion/react';
-import _ from 'lodash';
-import { P, match } from 'ts-pattern';
+import { Theme } from '@emotion/react';
+import { match, P } from 'ts-pattern';
 import palette from './palette';
 
-// TODO: 다크모드 구현
 export type Mode = 'dark' | 'light';
+
+const BRIGHTNESS_THRESHOLD = 128;
+
+const common = {
+  elevation: {
+    fab: 50,
+    appBar: 100,
+    drawer: 200,
+    modal: 300,
+    snackbar: 400,
+    tooltip: 500,
+  },
+  dim: {
+    thin: setAlphaToHex(palette.black, 0.4),
+    basic: setAlphaToHex(palette.black, 0.6),
+    thick: setAlphaToHex(palette.black, 0.8),
+  },
+  radii: {
+    none: '0',
+    xs: '4px',
+    sm: '8px',
+    md: '16px',
+    lg: '32px',
+    xl: '64px',
+    full: '9999px',
+  },
+  shadows: {
+    xs: [
+      `0 2px 2px 0 ${setAlphaToHex(palette.black, 0.1)}`,
+      `0 4px 8px 2px ${setAlphaToHex(palette.black, 0.05)}`,
+    ].join(', '),
+    sm: [
+      `0 4px 4px -2px ${setAlphaToHex(palette.black, 0.1)}`,
+      `0 8px 16px 4px ${setAlphaToHex(palette.black, 0.05)}`,
+    ].join(', '),
+    md: [
+      `0 6px 6px -3px ${setAlphaToHex(palette.black, 0.1)}`,
+      `0 12px 24px 6px ${setAlphaToHex(palette.black, 0.05)}`,
+    ].join(', '),
+    lg: [
+      `0 8px 8px -4px ${setAlphaToHex(palette.black, 0.1)}`,
+      `0 16px 32px 8px ${setAlphaToHex(palette.black, 0.05)}`,
+    ].join(', '),
+    xl: [
+      `0 10px 10px -5px ${setAlphaToHex(palette.black, 0.1)}`,
+      `0 20px 40px 10px ${setAlphaToHex(palette.black, 0.05)}`,
+    ].join(', '),
+  },
+  weights: {
+    light: 400,
+    normal: 500,
+    bold: 700,
+    extrabold: 800,
+  },
+};
 
 const themes: Record<Mode, Theme> = {
   dark: {
-    // 1. Primary
-    primary: getDarkThemeColorToken(palette.primary),
+    ...common,
+    primary: generateColorTokens('dark', palette.primary),
+    netural: generateColorTokens('dark', palette.gray[100]),
+    dark: generateColorTokens('dark', palette.black),
+    light: generateColorTokens('dark', palette.white),
+    info: generateColorTokens('dark', palette.indigo[600]),
+    danger: generateColorTokens('dark', palette.red[600]),
+    success: generateColorTokens('dark', palette.green[500]),
+    warning: generateColorTokens('dark', palette.yellow[500]),
 
-    // 2. Brand
-
-    // 3. Mono
-    netural: getDarkThemeColorToken(palette.gray[100]),
-    dark: getDarkThemeColorToken(palette.black),
-    light: getDarkThemeColorToken(palette.white),
-
-    // 4. Severity
-    info: getDarkThemeColorToken(palette.indigo[700]),
-    danger: getDarkThemeColorToken(palette.red[700]),
-    success: getDarkThemeColorToken(palette.green[700]),
-    warning: getDarkThemeColorToken(palette.yellow[700]),
-
-    // 5. Sementic
     text: {
       main: palette.gray[100],
       sub: palette.gray[200],
       third: palette.gray[300],
     },
     background: {
-      main: palette.gray[950],
-      sub: palette.gray[900],
-      elevated: palette.gray[800],
+      main: palette.gray[900],
+      sub: palette.gray[800],
+      elevated: palette.gray[700],
     },
-    border: toRGBAString(hexToRGBA(palette.white, 0.1)),
-
-    // 6. Others
-    elevation: {
-      fab: 50,
-      appBar: 100,
-      drawer: 200,
-      modal: 300,
-      snackbar: 400,
-      tooltip: 500,
+    border: {
+      netural: setAlphaToHex(palette.gray[100], 0.3),
+      dark: setAlphaToHex(palette.gray[900], 0.3),
+      light: setAlphaToHex(palette.gray[100], 0.3),
     },
-
-    dim: {
-      thin: toRGBAString(hexToRGBA(palette.black, 0.4)),
-      basic: toRGBAString(hexToRGBA(palette.black, 0.6)),
-      thick: toRGBAString(hexToRGBA(palette.black, 0.8)),
-    },
-
-    radii: {
-      none: '0',
-      xs: '4px',
-      sm: '8px',
-      md: '16px',
-      lg: '32px',
-      xl: '64px',
-      full: '9999px',
-    },
-
-    shadows: {
-      xs: [
-        `0 2px 2px 0 ${toRGBAString(hexToRGBA(palette.black, 0.1))}`,
-        `0 4px 8px 2px ${toRGBAString(hexToRGBA(palette.black, 0.05))}`,
-      ].join(', '),
-      sm: [
-        `0 4px 4px -2px ${toRGBAString(hexToRGBA(palette.black, 0.1))}`,
-        `0 8px 16px 4px ${toRGBAString(hexToRGBA(palette.black, 0.05))}`,
-      ].join(', '),
-      md: [
-        `0 6px 6px -3px ${toRGBAString(hexToRGBA(palette.black, 0.1))}`,
-        `0 12px 24px 6px ${toRGBAString(hexToRGBA(palette.black, 0.05))}`,
-      ].join(', '),
-      lg: [
-        `0 8px 8px -4px ${toRGBAString(hexToRGBA(palette.black, 0.1))}`,
-        `0 16px 32px 8px ${toRGBAString(hexToRGBA(palette.black, 0.05))}`,
-      ].join(', '),
-      xl: [
-        `0 10px 10px -5px ${toRGBAString(hexToRGBA(palette.black, 0.1))}`,
-        `0 20px 40px 10px ${toRGBAString(hexToRGBA(palette.black, 0.05))}`,
-      ].join(', '),
-    },
-
-    weights: {
-      light: 400,
-      normal: 500,
-      bold: 700,
-      extrabold: 800,
+    scrollbar: {
+      track: setAlphaToHex(palette.white, 0.15),
+      thumb: setAlphaToHex(palette.white, 0.3),
     },
   },
-
   light: {
-    // 1. Primary
-    primary: getLightThemeColorToken(palette.primary),
+    ...common,
+    primary: generateColorTokens('light', palette.primary),
+    netural: generateColorTokens('light', palette.gray[900]),
+    dark: generateColorTokens('light', palette.black),
+    light: generateColorTokens('light', palette.white),
+    info: generateColorTokens('light', palette.indigo[600]),
+    danger: generateColorTokens('light', palette.red[600]),
+    success: generateColorTokens('light', palette.green[500]),
+    warning: generateColorTokens('light', palette.yellow[500]),
 
-    // 2. Brand
-
-    // 3. Mono
-    netural: getLightThemeColorToken(palette.gray[900]),
-    dark: getLightThemeColorToken(palette.black),
-    light: getLightThemeColorToken(palette.white),
-
-    // 4. Severity
-    info: getLightThemeColorToken(palette.indigo[700]),
-    danger: getLightThemeColorToken(palette.red[700]),
-    success: getLightThemeColorToken(palette.green[700]),
-    warning: getLightThemeColorToken(palette.yellow[700]),
-
-    // 5. Sementic
     text: {
       main: palette.gray[900],
       sub: palette.gray[800],
       third: palette.gray[700],
     },
     background: {
-      main: palette.gray[50],
-      sub: palette.gray[100],
+      main: palette.gray[100],
+      sub: palette.gray[200],
       elevated: palette.white,
     },
-    border: toRGBAString(hexToRGBA(palette.black, 0.1)),
-
-    // 6. Others
-    elevation: {
-      fab: 50,
-      appBar: 100,
-      drawer: 200,
-      modal: 300,
-      snackbar: 400,
-      tooltip: 500,
+    border: {
+      netural: setAlphaToHex(palette.gray[900], 0.3),
+      dark: setAlphaToHex(palette.gray[900], 0.3),
+      light: setAlphaToHex(palette.gray[100], 0.3),
     },
-
-    dim: {
-      thin: toRGBAString(hexToRGBA(palette.black, 0.4)),
-      basic: toRGBAString(hexToRGBA(palette.black, 0.6)),
-      thick: toRGBAString(hexToRGBA(palette.black, 0.8)),
-    },
-
-    radii: {
-      none: '0',
-      xs: '4px',
-      sm: '8px',
-      md: '16px',
-      lg: '32px',
-      xl: '64px',
-      full: '9999px',
-    },
-
-    shadows: {
-      xs: [
-        `0 2px 2px 0 ${toRGBAString(hexToRGBA(palette.black, 0.1))}`,
-        `0 4px 8px 2px ${toRGBAString(hexToRGBA(palette.black, 0.05))}`,
-      ].join(', '),
-      sm: [
-        `0 4px 4px -2px ${toRGBAString(hexToRGBA(palette.black, 0.1))}`,
-        `0 8px 16px 4px ${toRGBAString(hexToRGBA(palette.black, 0.05))}`,
-      ].join(', '),
-      md: [
-        `0 6px 6px -3px ${toRGBAString(hexToRGBA(palette.black, 0.1))}`,
-        `0 12px 24px 6px ${toRGBAString(hexToRGBA(palette.black, 0.05))}`,
-      ].join(', '),
-      lg: [
-        `0 8px 8px -4px ${toRGBAString(hexToRGBA(palette.black, 0.1))}`,
-        `0 16px 32px 8px ${toRGBAString(hexToRGBA(palette.black, 0.05))}`,
-      ].join(', '),
-      xl: [
-        `0 10px 10px -5px ${toRGBAString(hexToRGBA(palette.black, 0.1))}`,
-        `0 20px 40px 10px ${toRGBAString(hexToRGBA(palette.black, 0.05))}`,
-      ].join(', '),
-    },
-
-    weights: {
-      light: 400,
-      normal: 500,
-      bold: 700,
-      extrabold: 800,
+    scrollbar: {
+      track: setAlphaToHex(palette.white, 0.15),
+      thumb: setAlphaToHex(palette.white, 0.3),
     },
   },
 };
 
-function getDarkThemeColorToken(hex: string): ColorTokens {
-  return getColorTokens('dark', hex);
+// Utils
+type RGB = [number, number, number];
+type RGBA = [number, number, number, number];
+type Hex = string;
+
+function generateColorTokens(mode: Mode, hex: string) {
+  const monochrome = getMonochromeColor(mode, hex);
+
+  return {
+    main: hex,
+    accent: getAccentColor(hex),
+    contrast: getContrastColor(hex),
+    hover: setAlphaToHex(hex, 0.05),
+    focus: setAlphaToHex(hex, 0.1),
+    active: setAlphaToHex(hex, 0.15),
+    disabled: setAlphaToHex(monochrome, 0.25),
+  };
 }
 
-function getLightThemeColorToken(hex: string): ColorTokens {
-  return getColorTokens('light', hex);
+function getAccentColor(hex: string): Hex {
+  const offset = 0.15;
+
+  const [r, g, b] = convertHexToRGBA(hex);
+  const isLight = getBrightness([r, g, b]) >= BRIGHTNESS_THRESHOLD;
+
+  return [r, g, b].reduce((acc, current) => {
+    const channel = isLight ? Math.pow(current, 2 - offset) / 255 : 255 - Math.pow(255 - current, 2 - offset) / 255;
+
+    return `${acc}${channel.toString(16).padStart(2, '0')}`;
+  }, '#');
 }
 
-function getColorTokens(mode: Mode, hex: string): ColorTokens {
-  const monochrome = match([mode, hex])
+function getContrastColor(hex: string): Hex {
+  const [r, g, b] = convertHexToRGBA(hex);
+  const isLight = getBrightness([r, g, b]) >= BRIGHTNESS_THRESHOLD;
+
+  return isLight ? palette.black : palette.white;
+}
+
+function getMonochromeColor(mode: Mode, hex: string) {
+  return match([mode, hex])
     .with([P.any, palette.black], ([_, hex]) => hex)
     .with([P.any, palette.white], ([_, hex]) => hex)
     .with(['dark', P.any], () => palette.white)
     .with(['light', P.any], () => palette.black)
     .exhaustive();
-
-  return {
-    main: hex,
-    accent: getAccentColor(hex),
-    contrast: getAcessibleMonochrome(hex),
-
-    hover: toRGBAString(hexToRGBA(hex, 0.05)),
-    active: toRGBAString(hexToRGBA(hex, 0.1)),
-    focus: toRGBAString(hexToRGBA(hex, 0.15)),
-    disabled: toRGBAString(hexToRGBA(monochrome, 0.2)),
-
-    alpha: (a: number) => toRGBAString(hexToRGBA(hex, a)),
-  };
 }
 
-function getAccentColor(hex: string) {
-  const [r1, g1, b1] = hexToRGBA(hex).map((value) => value / 255);
-  const [r2, g2, b2] = hexToRGBA(hex).map((value) => value / 255);
-
-  const brightness = Math.max((r1 + g1 + b1) / 3, (r2 + g2 + b2) / 3);
-
-  const r = Math.round((brightness * (2 * r1 - 1) + (1 - brightness) * r2) * 255);
-  const g = Math.round((brightness * (2 * g1 - 1) + (1 - brightness) * g2) * 255);
-  const b = Math.round((brightness * (2 * b1 - 1) + (1 - brightness) * b2) * 255);
-
-  return `rgba(${r}, ${g}, ${b}, 1)`;
+function getBrightness([r, g, b]: RGB) {
+  return r * 0.299 + g * 0.587 + b * 0.114;
 }
 
-function getAcessibleMonochrome(hex: string) {
-  const [r, g, b] = hexToRGBA(hex);
-  const brightness = getBrightness(r, g, b);
-
-  return brightness > 155 ? '#000000' : '#ffffff';
+export function setAlphaToHex(hex: string, a: number = 1) {
+  return `rgba(${convertHexToRGBA(hex, a).join(', ')})`;
 }
 
-function getBrightness(r: number, g: number, b: number) {
-  return (r * 299 + g * 587 + b * 114) / 1000;
-}
-
-type RGBA = [number, number, number, number];
-
-function toRGBAString(rgba: RGBA) {
-  return `rgba(${rgba.join()})`;
-}
-
-function hexToRGBA(hex: string, a: number = 1): RGBA {
+export function convertHexToRGBA(hex: string, a: number = 1): RGBA {
   if (!/^#([0-9a-f]{3}){1,2}$/i.test(hex)) {
-    throw new TypeError('Invalid hex code. Please provide a 3 or 6 digit hex code.');
+    throw new Error('유효하지 않은 16진수 코드입니다. 3자리 또는 6자리의 16진수 값만 입력해주세요.');
+  }
+
+  if (a < 0 || a > 1) {
+    throw new Error('유효하지 않은 투명도입니다. 투명도는 0 부터 1 사이의 값으로 입력해야 합니다.');
   }
 
   let r, g, b;
@@ -258,8 +200,6 @@ function hexToRGBA(hex: string, a: number = 1): RGBA {
     g = parseInt(hex.slice(3, 5), 16);
     b = parseInt(hex.slice(5, 7), 16);
   }
-
-  a = _.clamp(a, 0, 1);
 
   return [r, g, b, a];
 }

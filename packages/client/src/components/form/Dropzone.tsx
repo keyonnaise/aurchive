@@ -4,6 +4,7 @@ import Icon, { IconType } from '~components/atom/Icon';
 import Image from '~components/atom/Image';
 import Button from '~components/buttons/Button';
 import useFileSelector from '~hooks/useFileSelector';
+import { setAlphaToHex } from '~styles/themes';
 
 type Shape = 'round' | 'square';
 type ColorScheme = 'netural' | 'dark' | 'light';
@@ -108,8 +109,8 @@ const styledContainer =
       width: min(${width}px, 100%);
       aspect-ratio: ${width} / ${height};
       color: ${theme[colorScheme].main};
-      background-color: ${theme[colorScheme].alpha(0.2)};
-      border: 2px dashed ${theme[colorScheme].alpha(0.4)};
+      background-color: ${setAlphaToHex(theme[colorScheme].main, 0.2)};
+      border: 2px dashed ${setAlphaToHex(theme[colorScheme].main, 0.4)};
       border-radius: ${shape === 'round' ? theme.radii.full : theme.radii.md};
       opacity: ${isDisabled && 0.6};
 

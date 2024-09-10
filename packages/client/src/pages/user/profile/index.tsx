@@ -140,7 +140,7 @@ const styledContainer = Object.assign(
 );
 
 const styledNav = (theme: Theme) => css`
-  border-bottom: 1px solid ${theme.border};
+  border-bottom: 1px solid ${theme.border.netural};
 `;
 
 const styledLinkGroup = css`

@@ -5,6 +5,7 @@ import { match } from 'ts-pattern';
 import Icon, { IconType } from '~components/atom/Icon';
 import Button, { PolymorphicProps } from '~components/buttons/Button';
 import { slideIn } from '~styles/keyframes';
+import { setAlphaToHex } from '~styles/themes';
 
 interface Props {
   children: React.ReactNode;
@@ -318,7 +319,7 @@ const styledContent = (theme: Theme) => css`
   padding: 4px;
   color: ${theme.text.main};
   background-color: ${theme.background.elevated};
-  border: 1px solid ${theme.border};
+  border: 1px solid ${theme.border.netural};
   border-radius: ${theme.radii.sm};
   box-shadow: ${theme.shadows.xs};
 
@@ -392,7 +393,7 @@ const styledItem =
       &:hover,
       &[data-state='open'],
       &[data-highlighted] {
-        background: ${theme.netural.alpha(0.1)};
+        background: ${setAlphaToHex(theme.netural.main, 0.1)};
       }
 
       &[data-disabled] {

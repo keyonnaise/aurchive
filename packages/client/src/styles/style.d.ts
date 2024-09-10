@@ -10,8 +10,6 @@ declare module '@emotion/react' {
     active: string;
     focus: string;
     disabled: string;
-
-    alpha: (a: number) => string;
   }
 
   export interface Theme {
@@ -42,7 +40,15 @@ declare module '@emotion/react' {
       sub: string;
       elevated: string;
     };
-    border: string;
+    border: {
+      netural: string;
+      dark: string;
+      light: string;
+    };
+    scrollbar: {
+      track: string;
+      thumb: string;
+    };
 
     // 6. Others
     elevation: {
